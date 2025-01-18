@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
+from app.routes.ai_routes import ai_bp
 
 db = SQLAlchemy()
 
@@ -12,7 +13,6 @@ def create_app():
 
     db.init_app(app)
 
-    with app.app_context():
-        pass
+    app.register_blueprint(ai_bp, url_prefix="/ai")
 
     return app

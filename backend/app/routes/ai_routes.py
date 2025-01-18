@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 import requests
 import os
 
@@ -6,6 +6,13 @@ ai_bp = Blueprint('ai', __name__)
 
 UPLOAD_FOLDER = "instance/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@ai_bp.route("/", methods=["GET"])
+def index():
+    """
+    Returns the landing page for the site
+    """
+    return render_template("index.html")
 
 @ai_bp.route("/upload", methods=["POST"])
 def upload_image():
@@ -34,7 +41,7 @@ def upload_image():
                     filename = os.path.basename(image_url)
                     filepath = os.path.join(UPLOAD_FOLDER, filename)
 
-                    with open(filepath, 'w') as file:
+                    with open(filepath, 'wb') as file:
                         file.write(response.content)
 
                     return jsonify({"message": "Image downloaded successfully", "filepath": filepath}), 200
