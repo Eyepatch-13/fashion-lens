@@ -1,0 +1,6 @@
+.env
+models/
+venv/
+images/
+instance/
+database/
