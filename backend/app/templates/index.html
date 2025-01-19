@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Image Submission</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
@@ -44,7 +44,16 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
+
+                <!-- Results Section -->
+                <div id="results" class="mt-5">
+                    <h3>Response Data:</h3>
+                    <pre id="response-data" class="bg-light p-3 rounded"></pre>
+                    <h3 class="mt-4">Rendered Images:</h3>
+                    <div id="image-gallery" class="row g-4"></div>
+                </div>
             </div>
+
             <script>
                 function toggleInput(selection) {
                     if (selection === 'file') {
@@ -55,14 +64,15 @@
                         document.getElementById('url-input').style.display = 'block';
                     }
                 }
-        
+
                 async function submitForm(event) {
                     event.preventDefault();
-        
+
                     const method = document.querySelector('input[name="method"]:checked').value;
                     const formData = new FormData();
-                    const apiUrl = '/ai/upload';
-        
+                    const apiUrl = '/upload';
+                    let responseData;
+
                     if (method === 'file') {
                         const fileInput = document.getElementById('file');
                         if (!fileInput.files.length) {
@@ -70,23 +80,22 @@
                             return;
                         }
                         formData.append('file', fileInput.files[0]);
-        
+
                         // Send file upload request
                         const response = await fetch(apiUrl, {
                             method: 'POST',
                             body: formData,
                         });
-        
-                        const result = await response.json();
-                        alert(JSON.stringify(result));
-        
+
+                        responseData = await response.json();
+
                     } else if (method === 'url') {
                         const url = document.getElementById('url').value;
                         if (!url) {
                             alert('Please enter a valid URL.');
                             return;
                         }
-        
+
                         // Send URL submission request
                         const response = await fetch(apiUrl, {
                             method: 'POST',
@@ -95,13 +104,41 @@
                             },
                             body: JSON.stringify({ url }),
                         });
-        
-                        const result = await response.json();
-                        alert(JSON.stringify(result));
+
+                        responseData = await response.json();
                     }
+
+                    // Pretty-print response data
+                    document.getElementById('response-data').textContent = JSON.stringify(responseData, null, 2);
+
+                    // Render images in the gallery
+                    const gallery = document.getElementById('image-gallery');
+                    gallery.innerHTML = responseData.message
+                        .map(
+                            product => `
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="${product.image_path}" class="card-img-top" alt="${product.product_display_name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.product_display_name}</h5>
+                                    <p class="card-text">
+                                        <strong>Category:</strong> ${product.master_category}<br>
+                                        <strong>Sub-Category:</strong> ${product.sub_category}<br>
+                                        <strong>Color:</strong> ${product.base_colour}<br>
+                                        <strong>Gender:</strong> ${product.gender}<br>
+                                        <strong>Season:</strong> ${product.season}<br>
+                                        <strong>Year:</strong> ${product.year}<br>
+                                        <strong>Usage:</strong> ${product.usage}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                        )
+                        .join('');
                 }
             </script>
         </main>
         <footer></footer>
     </body>
-</html> 
+</html>

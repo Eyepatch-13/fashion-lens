@@ -1,10 +1,9 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from app.extensions import db
 import os
 from app.routes.ai_routes import ai_bp
+from app.routes.db_routes import db_bp
 from app.services.annoy_service import initialize_annoy_service
-
-db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -16,6 +15,7 @@ def create_app():
 
     db.init_app(app)
 
-    app.register_blueprint(ai_bp, url_prefix="/ai")
+    app.register_blueprint(ai_bp)
+    app.register_blueprint(db_bp)
 
     return app

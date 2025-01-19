@@ -1,6 +1,6 @@
-from app import db
+from app.extensions import db
 
-class Product(db.model):
+class Product(db.Model):
     __tablename__ = 'products'
 
     id = db.Column(db.Integer, primary_key=True)

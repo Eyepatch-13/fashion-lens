@@ -2,6 +2,11 @@ from flask import Blueprint, jsonify, request, render_template
 import requests
 import os
 from app.services.annoy_service import get_indices
+from app.services.db_service import get_data
+from app.serializers.product_serializer import serialize_products
+import logging
+
+logger = logging.getLogger(__name__)
 
 ai_bp = Blueprint('ai', __name__)
 
@@ -52,4 +57,6 @@ def upload_image():
         return jsonify({"error": "No url or valid file provided"}), 400
 
     neighbors = get_indices(filepath)
-    return str(neighbors)
+    data = get_data(neighbors)
+    serialized_data = serialize_products(data)
+    return jsonify({"message": serialized_data}), 200
