@@ -1,7 +1,7 @@
 from flask import send_from_directory, Blueprint, current_app, request, jsonify
-from app.models import Product
-from app.serializers.product_serializer import serialize_product, serialize_products
 import os
+from app.serializers.product_serializer import serialize_products, serialize_product
+from app.models import Product
 
 db_bp = Blueprint('db', __name__)
 
@@ -33,10 +33,9 @@ def get_products():
     return jsonify(response)
 
 @db_bp.route("/products/<int:id>", methods=["GET"])
-def get_product(id: int):
+def get_product_with_id(id: int):
     product = Product.query.filter(Product.id==id).first()
     response = {
         "product": serialize_product(product)
     }
-
     return jsonify(response)
