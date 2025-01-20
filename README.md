@@ -34,6 +34,11 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
   GET /products
 ```
 
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `page`    | `integer`| **Optional**. The Page number to retrieve |
+| `limit'   | `integer`| **Optional**. The number of items per page |
+
 #### Get item
 
 ```http
@@ -96,7 +101,13 @@ instance/styles/<all style.json files> optional
 
 instance/uploads
 
-instance/{products.db, image.csv, styles.csv}
+instance/{image.csv, styles.csv}
+```
+
+Setup products.db by running one_time.py
+
+```bash
+python3 one_time.py
 ```
     
 ## Run Locally
