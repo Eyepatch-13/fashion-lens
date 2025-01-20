@@ -1,36 +1,34 @@
-import torch
-from torchvision import transforms, models
-from PIL import Image
+import tensorflow
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.layers import GlobalMaxPooling2D
+from tensorflow.keras.applications.resnet50 import ResNet50,preprocess_input
+import numpy as np
+from numpy.linalg import norm
 
-transform = transforms.Compose([
-    transforms.Resize((60, 80)),
-    #transforms.Resize((224,224)),
-    transforms.Lambda(lambda img: img.convert("RGB") if img.mode != "RGB" else img),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+model = ResNet50(weights='imagenet',include_top=False,input_shape=(224,224,3))
+model.trainable = False
+
+model = tensorflow.keras.Sequential([
+    model,
+    GlobalMaxPooling2D()
 ])
 
-def preprocess_image(image):
-    if isinstance(image, str):
-        image = Image.open(image)
-    return transform(image)
+def extract_features(img_path,model):
+    img = image.load_img(img_path,target_size=(224,224))
+    img_array = image.img_to_array(img)
+    expanded_img_array = np.expand_dims(img_array, axis=0)
+    preprocessed_img = preprocess_input(expanded_img_array)
+    result = model.predict(preprocessed_img).flatten()
+    normalized_result = result / norm(result)
 
-model = models.resnet50(pretrained=True)
-model = torch.nn.Sequential(*(list(model.children())[:-1]))
-model.eval()
-
-def extract_features(image_tensor):
-    with torch.no_grad():
-        embedding = model(image_tensor.unsqueeze(0))
-    return embedding.squeeze().numpy()
+    return normalized_result
 
 def extract_from_filepath(image: str):
-    image = Image.open(image)
-    image_tensor = preprocess_image(image)
-    embedding = extract_features(image_tensor)
+    embedding = extract_features(image, model)
     return embedding
 
-def get_similar(annoy_index, image: str):
-    query_embedding = extract_from_filepath(image)
-    neighbor_indices = annoy_index.get_nns_by_vector(query_embedding, 5)
-    return neighbor_indices
+def get_id_from_fullpath(filepath: str) -> str:
+    if filepath.startswith("fashion-dataset/images/"):
+        filepath = filepath[23:]
+        filepath = filepath[:-4]
+        return filepath
