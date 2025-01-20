@@ -56,7 +56,10 @@ def get_indices(filepath: str, top_k: int = 6):
         top_k_indices = np.argsort(distances)[:top_k]
         
         # Return filenames and distances for the top-k closest embeddings
-        return [train_filenames[idx] for idx in top_k_indices]
+        filenames = [(train_filenames[idx], distances[idx]) for idx in top_k_indices]
+        filenames.sort(key=lambda x: x[1])
+        filenames = [file[0] for file in filenames]
+        return filenames
     except Exception as e:
         logger.error(f"Error finding similar embeddings: {e}")
         raise

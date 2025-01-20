@@ -56,7 +56,7 @@ def upload_image():
     else:
         return jsonify({"error": "No url or valid file provided"}), 400
 
-    neighbors= get_indices(filepath)
+    neighbors = get_indices(filepath)
     data = get_data(neighbors)
     serialized_data = serialize_products(data)
     return jsonify({"message": serialized_data}), 200

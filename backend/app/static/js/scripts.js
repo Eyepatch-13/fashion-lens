@@ -77,6 +77,6 @@ async function submitForm(event) {
             </div>
         </div>
     `
-        )
+        ).reverse()
         .join('');
 }
