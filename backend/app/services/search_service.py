@@ -34,7 +34,7 @@ def initialize_search_service():
         raise
 
 
-def get_indices(filepath: str, top_k: int = 5):
+def get_indices(filepath: str, top_k: int = 6):
     """
     Performs a brute-force search to find the most similar embeddings.
 
@@ -50,7 +50,7 @@ def get_indices(filepath: str, top_k: int = 5):
         query_embedding = extract_from_filepath(filepath)
         
         # Compute distances between the query and training embeddings
-        distances = cdist([query_embedding], train_embeddings, metric="euclidean")[0]
+        distances = cdist([query_embedding], train_embeddings, metric="cosine")[0]
         
         # Get indices of the top-k closest embeddings
         top_k_indices = np.argsort(distances)[:top_k]
