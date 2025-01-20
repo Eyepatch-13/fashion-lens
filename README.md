@@ -66,7 +66,7 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
 
 **Server:** Python
 
-
+**Model:** ResNet50
 ## Roadmap
 
 - Add basic filters
@@ -74,4 +74,63 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
 - Add ability to insert more data into tables
 
 - Improve frontend design
+
+
+## Installation
+
+Install the project by cloning the repository.
+
+```bash
+  git clone <url>
+  cd <directory>
+```
+
+Setup the database, images, and embeddings inside the Intance directory in the following way:
+
+ ```bash
+instance/database/{embeddings.pkl, filenames.pkl}
+
+instance/images/<all images>
+
+instance/styles/<all style.json files> optional
+
+instance/uploads
+
+instance/{products.db, image.csv, styles.csv}
+```
+    
+## Run Locally
+
+Setup Virtual Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install dependencies
+
+```bash
+  pip install -r requirements.txt
+```
+
+Start the server
+
+```bash
+python3 run.py
+```
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+pytest
+```
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at toran.jain@daffodilsw.com
 
