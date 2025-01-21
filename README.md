@@ -8,7 +8,7 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
 
 ## Authors
 
-- Toran Jain
+- [@Toran Jain](https://github.com/Eyepatch-13)
 
 
 ## Features
@@ -86,8 +86,8 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
 Install the project by cloning the repository.
 
 ```bash
-  git clone <url>
-  cd <directory>
+  git clone https://github.com/Eyepatch-13/fashion-lens.git
+  cd fashion-lens
 ```
 
 Setup the database, images, and embeddings inside the Intance directory in the following way:
