@@ -90,11 +90,9 @@ Install the project by cloning the repository.
   cd fashion-lens
 ```
 
-Setup the database, images, and embeddings inside the Intance directory in the following way:
+Setup the database and images directory inside the instance directory in the following way:
 
  ```bash
-instance/database/{embeddings.pkl, filenames.pkl}
-
 instance/images/<all images>
 
 instance/styles/<all style.json files> optional
@@ -102,12 +100,6 @@ instance/styles/<all style.json files> optional
 instance/uploads
 
 instance/{image.csv, styles.csv}
-```
-
-Setup products.db by running one_time.py
-
-```bash
-python3 one_time.py
 ```
     
 ## Run Locally
@@ -123,6 +115,13 @@ Install dependencies
 
 ```bash
   pip install -r requirements.txt
+```
+
+One time initializations
+
+```bash
+python3 one_time.py
+python3 get_embeddings.py
 ```
 
 Start the server
@@ -141,7 +140,7 @@ pytest
 ```
 
 
-## Feedback
+## Feedback and Dataset Access
 
-If you have any feedback, please reach out to us at toran.jain@daffodilsw.com
+If you have any feedback or want access to the dataset, please reach out to us at toran.jain@daffodilsw.com
 
