@@ -26,7 +26,7 @@ def init_db(app):
 def test_landing(client):
     response = client.get("/")
     assert response.status_code == 200
-    assert b'<html>' in response.data
+    assert b'Fashion Lens' in response.data
 
 def test_products(client, init_db):
     init_db.session.add(Product())

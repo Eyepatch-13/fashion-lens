@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template
 import requests
 import os
-from app.services.search_service import get_indices
+from app.services.annoy_service import get_indices
 from app.services.db_service import get_data
 from app.serializers.product_serializer import serialize_products
 import logging
