@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from app.extensions import db
 import os
 from app.routes.ai_routes import ai_bp
@@ -7,6 +8,7 @@ from app.services.annoy_service import initialize_annoy_service
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     initialize_annoy_service(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(app.instance_path, "products.db")}'

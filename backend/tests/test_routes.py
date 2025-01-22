@@ -21,12 +21,6 @@ def init_db(app):
         yield db
         db.session.remove()
         db.drop_all()
-        
-
-def test_landing(client):
-    response = client.get("/")
-    assert response.status_code == 200
-    assert b'Fashion Lens' in response.data
 
 def test_products(client, init_db):
     init_db.session.add(Product())

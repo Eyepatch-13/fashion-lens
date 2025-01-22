@@ -1,0 +1,59 @@
+body {
+  background-color: #121212;
+  color: #f0f0f0;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-weight: bold;
+  color: #ff8c00;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.form-check-label {
+  color: #ccc;
+}
+
+input[type="file"],
+input[type="url"] {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+
+input[type="file"]:focus,
+input[type="url"]:focus {
+  border-color: #ff8c00;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: #2d3748;
+  border-color: #2d3748;
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+.btn-primary:hover {
+  background-color: #4a5568;
+  border-color: #4a5568;
+}
+
+.shadow-sm {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#root {
+  width: max(50vw, 400px);
+  font-size: 20px;
+}

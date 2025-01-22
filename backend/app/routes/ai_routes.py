@@ -13,13 +13,6 @@ ai_bp = Blueprint('ai', __name__)
 UPLOAD_FOLDER = "instance/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@ai_bp.route("/", methods=["GET"])
-def index():
-    """
-    Returns the landing page for the site
-    """
-    return render_template("index.html")
-
 @ai_bp.route("/upload", methods=["POST"])
 def upload_image():
     """
