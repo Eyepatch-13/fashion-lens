@@ -90,16 +90,26 @@ Install the project by cloning the repository.
   cd fashion-lens
 ```
 
+Download the dataset from kaggle
+```bash
+https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-dataset
+```
+
 Setup the database and images directory inside the instance directory in the following way:
 
- ```bash
-instance/images/<all images>
+Images and styles should be kept in 
 
-instance/styles/<all style.json files> optional
+```bash
+/instance/images/...
+/instance/styles/...
+/instance/image.csv
+/instance/styles.csv
+```
 
+Create an upload directory
+
+```bash
 instance/uploads
-
-instance/{image.csv, styles.csv}
 ```
     
 ## Run Locally
@@ -143,5 +153,5 @@ pytest
 
 ## Feedback and Dataset Access
 
-If you have any feedback or want access to the dataset, please reach out to us at toran.jain@daffodilsw.com
+If you have any feedback, please reach out to us at toran.jain@daffodilsw.com
 
