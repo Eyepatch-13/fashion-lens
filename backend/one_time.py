@@ -1,68 +1,70 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+import sqlite3
 import csv
 import os
 
-# Initialize Flask app and database
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/products.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-# Define the Products model
-class Product(db.Model):
-    __tablename__ = 'products'
-    id = db.Column(db.Integer, primary_key=True)
-    gender = db.Column(db.String(50))
-    masterCategory = db.Column(db.String(100))
-    subCategory = db.Column(db.String(100))
-    articleType = db.Column(db.String(100))
-    baseColour = db.Column(db.String(50))
-    season = db.Column(db.String(50))
-    year = db.Column(db.Integer)
-    usage = db.Column(db.String(100))
-    productDisplayName = db.Column(db.String(255))
-
-def create_database(csv_path):
+def create_database(csv_path, db_path):
     """
-    Creates the database and populates it with data from the CSV file.
+    Creates an SQLite database from a CSV file.
 
     Args:
         csv_path (str): Path to the styles.csv file.
+        db_path (str): Path to the SQLite database file to be created.
     """
-    with app.app_context():
-        # Create all tables
-        db.create_all()
-        print("Database tables created successfully.")
+    # Connect to SQLite database (creates the file if it doesn't exist)
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
-        # Read the CSV file and insert data
-        with open(csv_path, 'r', encoding='utf-8') as file:
-            reader = csv.DictReader(file)
-            products = []
-            for row in reader:
-                product = Product(
-                    id=int(row['id']),
-                    gender=row['gender'],
-                    masterCategory=row['masterCategory'],
-                    subCategory=row['subCategory'],
-                    articleType=row['articleType'],
-                    baseColour=row['baseColour'],
-                    season=row['season'],
-                    year=int(row['year']),
-                    usage=row['usage'],
-                    productDisplayName=row['productDisplayName']
-                )
-                products.append(product)
+    # Create the products table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY,
+            gender TEXT,
+            masterCategory TEXT,
+            subCategory TEXT,
+            articleType TEXT,
+            baseColour TEXT,
+            season TEXT,
+            year INTEGER,
+            usage TEXT,
+            productDisplayName TEXT
+        )
+    """)
 
-            # Bulk insert the products
-            db.session.bulk_save_objects(products)
-            db.session.commit()
-            print(f"Inserted {len(products)} rows into the database.")
+    # Read the CSV file and insert data into the database
+    with open(csv_path, 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        
+        # Prepare the SQL statement for insertion
+        insert_query = """
+            INSERT INTO products (id, gender, masterCategory, subCategory, articleType,
+                                  baseColour, season, year, usage, productDisplayName)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        count = 0
+        # Insert rows from the CSV file
+        for row in reader:
+            cursor.execute(insert_query, (
+                int(row['id']),
+                row['gender'],
+                row['masterCategory'],
+                row['subCategory'],
+                row['articleType'],
+                row['baseColour'],
+                row['season'],
+                int(row['year']),
+                row['usage'],
+                row['productDisplayName']
+            ))
+
+    # Commit changes and close the connection
+    conn.commit()
+    conn.close()
+    print(f"Database created successfully at {db_path}")
 
 if __name__ == "__main__":
-    # Define the CSV path
+    # Define the paths
     csv_path = os.path.join("instance", "styles.csv")
-    if os.path.exists(csv_path):
-        create_database(csv_path)
-    else:
-        print(f"CSV file not found at {csv_path}")
+    db_path = os.path.join("instance", "products.db")
+    
+    # Create the database
+    create_database(csv_path, db_path)
