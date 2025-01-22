@@ -71,7 +71,7 @@ A quick and easy way to discover fashion choices from everyday world. Just a cli
 
 **Server:** Python
 
-**Model:** ResNet50
+**Model:** ResNet50, Annoy
 ## Roadmap
 
 - Add basic filters
@@ -122,6 +122,7 @@ One time initializations
 ```bash
 python3 one_time.py
 python3 get_embeddings.py
+python3 make_annoy.py
 ```
 
 Start the server
