@@ -18,7 +18,7 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const apiUrl = 'http://127.0.0.1:5000/upload';
+        const apiUrl = '/upload';
         let response;
 
         if (method === 'file') {
@@ -241,7 +241,7 @@ function App() {
                         <div className="col-md-4" key={product.id}>
                             <div className="card">
                                 <img
-                                    src={`http://localhost:5000/images/${product.id}.jpg`}
+                                    src={`/images/${product.id}.jpg`}
                                     className="card-img-top"
                                     alt={product.productDisplayName}
                                 />
