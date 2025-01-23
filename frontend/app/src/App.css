@@ -4,6 +4,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background-color: #121212;
 }
 
 h2 {
@@ -17,6 +19,7 @@ h2 {
   background-color: #1f1f1f;
   border-radius: 8px;
   border: 1px solid #333;
+  padding: 20px;
 }
 
 .form-check-label {
@@ -28,6 +31,9 @@ input[type="url"] {
   background-color: #333;
   color: #f0f0f0;
   border: 1px solid #555;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
 }
 
 input[type="file"]:focus,
@@ -41,6 +47,7 @@ input[type="url"]:focus {
   border-color: #2d3748;
   font-size: 16px;
   padding: 10px 20px;
+  border-radius: 4px;
 }
 
 .btn-primary:hover {
@@ -48,11 +55,43 @@ input[type="url"]:focus {
   border-color: #4a5568;
 }
 
+.btn-secondary {
+  background-color: #4a5568;
+  border-color: #4a5568;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #f0f0f0;
+}
+
+.btn-secondary:hover {
+  background-color: #ff8c00;
+  border-color: #ff8c00;
+  color: #fff;
+}
+
 .shadow-sm {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+video {
+  width: 100%;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+img {
+  max-width: 100%;
+  border: 1px solid #555;
+  border-radius: 8px;
 }
 
 #root {
   width: max(50vw, 400px);
   font-size: 20px;
+}
+
+canvas {
+  display: none;
 }
